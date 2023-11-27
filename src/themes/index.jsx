@@ -6,6 +6,7 @@ import { CssBaseline, StyledEngineProvider } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 // project import
+import useConfig from 'hooks/useConfig';
 import Palette from './palette';
 import Typography from './typography';
 import CustomShadows from './shadows';
@@ -14,10 +15,12 @@ import componentsOverride from './overrides';
 // ==============================|| DEFAULT THEME - MAIN  ||============================== //
 
 export default function ThemeCustomization({ children }) {
-  const theme = Palette('light', 'default');
+  const { themeDirection, mode, presetColor, fontFamily } = useConfig();
+
+  const theme = useMemo(() => Palette(mode, presetColor), [mode, presetColor]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const themeTypography = Typography(`'Public Sans', sans-serif`);
+  const themeTypography = useMemo(() => Typography(fontFamily), [fontFamily]);
   const themeCustomShadows = useMemo(() => CustomShadows(theme), [theme]);
 
   const themeOptions = useMemo(
@@ -28,10 +31,10 @@ export default function ThemeCustomization({ children }) {
           sm: 768,
           md: 1024,
           lg: 1266,
-          xl: 1536
+          xl: 1440
         }
       },
-      direction: 'ltr',
+      direction: themeDirection,
       mixins: {
         toolbar: {
           minHeight: 60,
@@ -43,7 +46,7 @@ export default function ThemeCustomization({ children }) {
       customShadows: themeCustomShadows,
       typography: themeTypography
     }),
-    [theme, themeTypography, themeCustomShadows]
+    [themeDirection, theme, themeTypography, themeCustomShadows]
   );
 
   const themes = createTheme(themeOptions);

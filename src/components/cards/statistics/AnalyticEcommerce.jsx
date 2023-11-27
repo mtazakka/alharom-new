@@ -7,11 +7,11 @@ import { Box, Chip, Grid, Stack, Typography } from '@mui/material';
 import MainCard from 'components/MainCard';
 
 // assets
-import { RiseOutlined, FallOutlined } from '@ant-design/icons';
+import { FallOutlined, RiseOutlined } from '@ant-design/icons';
 
 // ==============================|| STATISTICS - ECOMMERCE CARD  ||============================== //
 
-const AnalyticEcommerce = ({ color, title, count, percentage, isLoss, extra }) => (
+const AnalyticEcommerce = ({ color = 'primary', title, count, percentage, isLoss, extra }) => (
   <MainCard contentSX={{ p: 2.25 }}>
     <Stack spacing={0.5}>
       <Typography variant="h6" color="textSecondary">
@@ -55,16 +55,12 @@ const AnalyticEcommerce = ({ color, title, count, percentage, isLoss, extra }) =
 );
 
 AnalyticEcommerce.propTypes = {
-  color: PropTypes.string,
   title: PropTypes.string,
   count: PropTypes.string,
   percentage: PropTypes.number,
   isLoss: PropTypes.bool,
-  extra: PropTypes.oneOfType([PropTypes.node, PropTypes.string])
-};
-
-AnalyticEcommerce.defaultProps = {
-  color: 'primary'
+  color: PropTypes.string,
+  extra: PropTypes.string
 };
 
 export default AnalyticEcommerce;

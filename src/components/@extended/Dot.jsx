@@ -4,37 +4,26 @@ import PropTypes from 'prop-types';
 import { useTheme } from '@mui/material/styles';
 import { Box } from '@mui/material';
 
-const Dot = ({ color, size }) => {
+// project import
+import getColors from 'utils/getColors';
+
+const Dot = ({ color, size, variant, sx }) => {
   const theme = useTheme();
-  let main;
-  switch (color) {
-    case 'secondary':
-      main = theme.palette.secondary.main;
-      break;
-    case 'error':
-      main = theme.palette.error.main;
-      break;
-    case 'warning':
-      main = theme.palette.warning.main;
-      break;
-    case 'info':
-      main = theme.palette.info.main;
-      break;
-    case 'success':
-      main = theme.palette.success.main;
-      break;
-    case 'primary':
-    default:
-      main = theme.palette.primary.main;
-  }
+  const colors = getColors(theme, color || 'primary');
+  const { main } = colors;
 
   return (
     <Box
+      component="span"
       sx={{
         width: size || 8,
         height: size || 8,
         borderRadius: '50%',
-        bgcolor: main
+        bgcolor: variant === 'outlined' ? '' : main,
+        ...(variant === 'outlined' && {
+          border: `1px solid ${main}`
+        }),
+        ...sx
       }}
     />
   );
@@ -42,7 +31,9 @@ const Dot = ({ color, size }) => {
 
 Dot.propTypes = {
   color: PropTypes.string,
-  size: PropTypes.number
+  size: PropTypes.number,
+  variant: PropTypes.string,
+  sx: PropTypes.oneOfType([PropTypes.object, PropTypes.string])
 };
 
 export default Dot;
